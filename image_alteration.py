@@ -63,6 +63,10 @@ def crop(img, width, height, center=True):
 
 #%%
 def lens_distort(img, right_lane, left_lane, amount=10):
+    org_img = copy.deepcopy(img)
+    org_rl = copy.deepcopy(right_lane)
+    org_ll = copy.deepcopy(left_lane)
+    
     amount = random.randint(0, amount)
     width = img.shape[1]
     height = img.shape[0]
@@ -110,9 +114,18 @@ def lens_distort(img, right_lane, left_lane, amount=10):
 
     right_lane = blobs_to_lane(right_lane)
     left_lane = blobs_to_lane(left_lane)
+    # If any of the points got lost due to transformation return original image and points
+    if(len(right_lane) + len(left_lane) < 12):
+        print("Recovering from incorrect amount of points")
+        img = org_img
+        right_lane = org_rl
+        left_lane = org_ll
     return(img, right_lane, left_lane)
 #%%
 def zoom_pan_rotate(img, right_lane, left_lane, amount):
+    org_img = copy.deepcopy(img)
+    org_rl = copy.deepcopy(right_lane)
+    org_ll = copy.deepcopy(left_lane)
 
     right_lane = draw_pixels(img, right_lane)
     left_lane = draw_pixels(img, left_lane)
@@ -134,6 +147,12 @@ def zoom_pan_rotate(img, right_lane, left_lane, amount):
 
     right_lane = blobs_to_lane(right_lane)
     left_lane = blobs_to_lane(left_lane)
+
+    if(len(right_lane) + len(left_lane) < 12):
+        print("Recovering from incorrect amount of points")
+        img = org_img
+        right_lane = org_rl
+        left_lane = org_ll
     return img, right_lane, left_lane
 #%%
 def blur(img, amount):
