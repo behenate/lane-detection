@@ -8,7 +8,6 @@ from imgaug import augmenters as iaa
 import random
 import noise
 from scipy import misc
-from scipy.misc import toimage
 from sklearn import preprocessing
 from PIL import Image, ImageFilter
 
