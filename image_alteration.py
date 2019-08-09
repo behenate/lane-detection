@@ -116,7 +116,6 @@ def lens_distort(img, right_lane, left_lane, amount=10):
     left_lane = blobs_to_lane(left_lane)
     # If any of the points got lost due to transformation return original image and points
     if(len(right_lane) + len(left_lane) < 12):
-        print("Recovering from incorrect amount of points")
         img = org_img
         right_lane = org_rl
         left_lane = org_ll
@@ -133,7 +132,7 @@ def zoom_pan_rotate(img, right_lane, left_lane, amount):
     random_scale = random.randint(70, 100)/100
     random_trans_x = random.randint(-16, 16)/100 
     random_trans_y = random.randint(-15, -10)/100 
-    random_rotate = random.randint(-10, 10)
+    random_rotate = random.randint(-15, 15)
     random_shear = random.randint(-6,6)
     transform = iaa.Affine(
         scale={"x": (random_scale), "y": (random_scale)},
@@ -149,7 +148,6 @@ def zoom_pan_rotate(img, right_lane, left_lane, amount):
     left_lane = blobs_to_lane(left_lane)
 
     if(len(right_lane) + len(left_lane) < 12):
-        print("Recovering from incorrect amount of points")
         img = org_img
         right_lane = org_rl
         left_lane = org_ll
