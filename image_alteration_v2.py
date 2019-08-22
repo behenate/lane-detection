@@ -52,7 +52,7 @@ def blobs_to_lane(img):
         points.append([int(keypoint.pt[0]), int(keypoint.pt[1])])
     points = sorted(points, key=lambda x: x[1])
     return points
-
+#%%
 def pts_2_imgaug_keypts(points, img):
     kps = []
     for point in points:
@@ -107,7 +107,7 @@ def lens_distort(img, right_lane, left_lane, amount=10):
     if(len(right_lane) + len(left_lane) < 12):
         return(org_img, org_rl, org_ll)
     return(img, right_lane, left_lane)
-
+#%%
 def distances(width, height, right_lane, left_lane, amount=1):
     both_lanes = np.concatenate((right_lane, left_lane), 0)
     xs = both_lanes[:,0]
@@ -122,10 +122,8 @@ def distances(width, height, right_lane, left_lane, amount=1):
     dist_y2 = int((height - y2) * amount) # Distance from the bottom of the image
 
     return dist_x1, dist_x2, dist_y1, dist_y2
-
+#%%
 def rotate(img, right_lane, left_lane, amount = 0.9):
-
-
     right_lane = pts_2_imgaug_keypts(right_lane, img)
     left_lane = pts_2_imgaug_keypts(left_lane, img)
 
@@ -139,7 +137,7 @@ def rotate(img, right_lane, left_lane, amount = 0.9):
     left_lane = np.array(left_lane, dtype=int)
 
     return img, right_lane, left_lane
-
+#%%
 def adaptive_centering(img, right_lane, left_lane, amount = 0.9, adaptive_centering_amt = 0.2):
     dist_x1, dist_x2, dist_y1, dist_y2 = distances(img.shape[1], img.shape[0], right_lane, left_lane, amount)
     dist_y1 -= 0  #Image is later cropped to 200px so make sure it doesn't zoom too far
@@ -156,7 +154,7 @@ def adaptive_centering(img, right_lane, left_lane, amount = 0.9, adaptive_center
     right_lane = keypoints[0].to_xy_array()
     left_lane = keypoints[1].to_xy_array()
     return img, right_lane, left_lane 
-
+#%%
 def smart_zoom(img, right_lane, left_lane, amount = 0.9, adaptive_centering_amt = 0.1):
     width = img.shape[1]
     height = img.shape[0]
@@ -187,7 +185,7 @@ def smart_zoom(img, right_lane, left_lane, amount = 0.9, adaptive_centering_amt 
     left_lane = np.array(left_lane, dtype=int)
 
     return img, right_lane, left_lane
-
+#%%
 # This function is similar to smart_zoom but it only scales the image on y axis to simulate wider roads
 def smart_stretch(img, right_lane, left_lane, amount = 1, adaptive_centering_amt = 0):
     width = img.shape[1]
@@ -213,6 +211,7 @@ def smart_stretch(img, right_lane, left_lane, amount = 1, adaptive_centering_amt
     left_lane = np.array(left_lane, dtype=int)
 
     return img, right_lane, left_lane
+#%%
 def smart_shear(img, right_lane, left_lane, amount = 0.9):
     # This approach is not that good due to the points not always being in the center of the screen. It's good enough for image generator though
     #  d = sin(a) * b
@@ -242,7 +241,7 @@ def smart_shear(img, right_lane, left_lane, amount = 0.9):
     left_lane = np.array(left_lane, dtype=int)
 
     return img, right_lane, left_lane
-
+#%%
 def smart_translate(img, right_lane, left_lane, amount = 0.9):
     width = img.shape[1]
     height = img.shape[0] 
