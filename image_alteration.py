@@ -10,6 +10,7 @@ import noise
 from scipy import misc
 from sklearn import preprocessing
 from PIL import Image, ImageFilter
+import time
 
 labels_path = 'labels/'
 labels_pahts = os.listdir(labels_path)
@@ -212,9 +213,11 @@ def perlin_shadows(img):
     return mix
 #%%
 # TEST
+# cv2.namedWindow("test", cv2.WINDOW_KEEPRATIO)
 # for i in range(20):
 #     for label in labels_pahts:
 #         if label.endswith(".p"):
+#             start_time = time.time()
 #             label = pickle.load(open(labels_path + label, "rb"))
 #             img = label['img']
 #             left_lane = label['left_lane']
@@ -233,16 +236,18 @@ def perlin_shadows(img):
 #             if np.random.rand() < 0.5:
 #                 img = gaussian_noise(img)
 #             ddist_img = draw_points(img, right_lane, left_lane)
-#             cv2.namedWindow("test", cv2.WINDOW_KEEPRATIO)
+            
+
+#             fps =  int(1.0 / (time.time() - start_time))
+#             perf = fps/60
+#             font = cv2.FONT_HERSHEY_SIMPLEX
+#             ddist_img = cv2.putText(ddist_img,f'FPS: {fps}',(30,30), font, 1,(0, perf * 255,(1-perf) * 255 ),2,cv2.LINE_AA)
+
 #             cv2.imshow("test", ddist_img)
 
-#             key = cv2.waitKey(1)
+#             key = cv2.waitKey(0)
 #             if(len(left_lane) + len(right_lane) < 12):
-#                 print("""
-#                 Missing Points! 
-#                 Thats a serious issue, that shouldn't happen!
-#                 For real Though if this happened while you were training you're screwed"
-#                 """)
+#                 print("Missing Points!")
 #                 cv2.waitKey(0)
 #             if key==ord('q'):
 #                 break
