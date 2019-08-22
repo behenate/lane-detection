@@ -194,7 +194,6 @@ def smart_stretch(img, right_lane, left_lane, amount = 1, adaptive_centering_amt
     # img, right_lane, left_lane = adaptive_centering(img, right_lane, left_lane, amount, adaptive_centering)
     img, right_lane, left_lane = adaptive_centering(img, right_lane, left_lane, amount=amount, adaptive_centering_amt=adaptive_centering_amt)
     dist_x1, dist_x2, _, _ = distances(width, height, right_lane, left_lane, amount)
-    print(dist_x2)
     # Find the zoom amounts
     stretch = min([dist_x1, dist_x2]) * 2
     stretch_min = 0.7
