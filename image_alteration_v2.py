@@ -251,8 +251,8 @@ def smart_translate(img, right_lane, left_lane, amount = 0.9):
     left_lane = pts_2_imgaug_keypts(left_lane, img)
 
     aug_x = random.randint(-dist_x1, dist_x2)
-    # Image is later clipped to 200px thats why 70px is added to the distance in here
-    aug_y = random.randint(-dist_y1 + 70, dist_y2)
+    # Image's top 26%  thats why 26% of height is added to crop
+    aug_y = random.randint(-dist_y1 + int(height * 0.26), dist_y2)
 
     aug = iaa.Affine(translate_px={"x": aug_x, "y": aug_y})
     img, keypoints = aug(image = img, keypoints = (right_lane, left_lane))
