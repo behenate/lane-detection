@@ -63,9 +63,9 @@ def pts_2_imgaug_keypts(points, img):
     return kpsoi
 #%%
 def lens_distort(img, right_lane, left_lane, amount=10):
-    org_img = copy.deepcopy(img)
-    org_rl = copy.deepcopy(right_lane)
-    org_ll = copy.deepcopy(left_lane)
+    org_img = copy.copy(img)
+    org_rl = copy.copy(right_lane)
+    org_ll = copy.copy(left_lane)
     
     amount = random.randint(0, amount)
     width = img.shape[1]
