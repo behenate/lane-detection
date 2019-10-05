@@ -19,6 +19,7 @@ labels_path = 'labels/'
 labels_pahts = os.listdir(labels_path)
 #%%
 def draw_points(img, right_lane, left_lane):
+    img = copy.copy(img)
     for point in right_lane:
         cv2.circle(img, (int(point[0]), int(point[1])), radius=4, thickness=-1,  color=(255,0,0))
     for point in left_lane:
@@ -26,7 +27,7 @@ def draw_points(img, right_lane, left_lane):
     return img
 #%%
 def draw_pixels(src_img, lane):
-    src_img = copy.deepcopy(src_img)
+    src_img = copy.copy(src_img)
     img = np.zeros_like(src_img)
     for points in lane:
         cv2.circle(img, (points[0], points[1]), radius=1, thickness=5, color=(0,255,0))
