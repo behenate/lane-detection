@@ -217,7 +217,6 @@ def smart_shear(img, right_lane, left_lane, amount = 0.9):
     #  d = sin(a) * b
     width = img.shape[1]
     height = img.shape[0]
-
     dist_x1, dist_x2, dist_y1, dist_y2 = distances(width, height, right_lane, left_lane, amount)
 
     # Workaround for a rare case when x distance is greater than image height 
@@ -229,7 +228,7 @@ def smart_shear(img, right_lane, left_lane, amount = 0.9):
     max_lean_right = int(math.asin(dist_x2 / height) * (57.2958 * amount)) 
 
     lean = min([max_lean_left, max_lean_right])
-    lean = random.randint(-lean, lean)
+    lean = random.randint(-abs(lean), abs(lean))
 
     right_lane = pts_2_imgaug_keypts(right_lane, img)
     left_lane = pts_2_imgaug_keypts(left_lane, img)
@@ -375,7 +374,7 @@ def default_alter(img, right_lane, left_lane):
 #         if(len(left_lane) + len(right_lane) < 12):
 #             print("Missing Points!" )
 #             cv2.waitKey(0)
-#         key = cv2.waitKey(200)
+#         key = cv2.waitKey(1)
 #         if key==ord('q'):
 #             break
 #%%
