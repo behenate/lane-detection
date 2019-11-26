@@ -67,7 +67,7 @@ def lens_distort(img, right_lane, left_lane, amount=10):
     org_rl = copy.copy(right_lane)
     org_ll = copy.copy(left_lane)
     
-    amount = random.randint(0, amount)
+    amount = random.randint(0, abs(amount))
     width = img.shape[1]
     height = img.shape[0]
 
@@ -128,7 +128,7 @@ def rotate(img, right_lane, left_lane, amount = 0.9):
     right_lane = pts_2_imgaug_keypts(right_lane, img)
     left_lane = pts_2_imgaug_keypts(left_lane, img)
 
-    roation = random.randint(-15 * amount, 15 * amount)
+    roation = random.randint(-15 * abs(amount), 15 * abs(amount))
     aug = iaa.Affine(rotate=roation)
     img, keypoints = aug(image=img, keypoints = (right_lane, left_lane))
 
@@ -250,9 +250,9 @@ def smart_translate(img, right_lane, left_lane, amount = 0.9):
     right_lane = pts_2_imgaug_keypts(right_lane, img)
     left_lane = pts_2_imgaug_keypts(left_lane, img)
 
-    aug_x = random.randint(-dist_x1, dist_x2)
+    aug_x = random.randint(-abs(dist_x1), abs(dist_x2))
     # Image's top 26%  thats why 26% of height is added to crop
-    aug_y = random.randint(-dist_y1 + int(height * 0.26), dist_y2)
+    aug_y = random.randint(-abs(dist_y1) + int(height * 0.26), abs(dist_y2))
 
     aug = iaa.Affine(translate_px={"x": aug_x, "y": aug_y})
     img, keypoints = aug(image = img, keypoints = (right_lane, left_lane))
@@ -349,33 +349,33 @@ def default_alter(img, right_lane, left_lane):
     return img, right_lane, left_lane
 #%%
 # TESTER
-# cv2.namedWindow("test", cv2.WINDOW_KEEPRATIO)
-# for label in labels_pahts[0:1000]:
-#     if label.endswith(".p"):
-#         start_time = time.time()
-#         label = pickle.load(open(labels_path + label, "rb"))
-#         img = label['img']
-#         left_lane = label['left_lane']
-#         right_lane = label['right_lane']
+cv2.namedWindow("test", cv2.WINDOW_KEEPRATIO)
+for label in labels_pahts[0:1000]:
+    if label.endswith(".p"):
+        start_time = time.time()
+        label = pickle.load(open(labels_path + label, "rb"))
+        img = label['img']
+        left_lane = label['left_lane']
+        right_lane = label['right_lane']
 
-#         img, right_lane, left_lane = default_alter(img, right_lane, left_lane)
+        img, right_lane, left_lane = default_alter(img, right_lane, left_lane)
 
-#         ddist_img = draw_points(img, right_lane, left_lane)
+        ddist_img = draw_points(img, right_lane, left_lane)
         
-#         fps =  int(1.0 / (time.time() - start_time))
-#         perf = fps/60
-#         font = cv2.FONT_HERSHEY_SIMPLEX
-#         ddist_img = cv2.putText(ddist_img,f'FPS: {fps}',(30,30), font, 1,(0, perf * 255,(1-perf) * 255 ),2,cv2.LINE_AA)
-#         cv2.line(img, (0, 70), (480, 70), color = (255,0,0), thickness=1, lineType=8, shift=0)
-#         cv2.line(img, (240, 0), (240, 270), color = (255,0,0), thickness=1, lineType=8, shift=0)
-#         cv2.imshow("test", ddist_img)
+        fps =  int(1.0 / (time.time() - start_time))
+        perf = fps/60
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        ddist_img = cv2.putText(ddist_img,f'FPS: {fps}',(30,30), font, 1,(0, perf * 255,(1-perf) * 255 ),2,cv2.LINE_AA)
+        cv2.line(img, (0, 70), (480, 70), color = (255,0,0), thickness=1, lineType=8, shift=0)
+        cv2.line(img, (240, 0), (240, 270), color = (255,0,0), thickness=1, lineType=8, shift=0)
+        cv2.imshow("test", ddist_img)
 
 
-#         if(len(left_lane) + len(right_lane) < 12):
-#             print("Missing Points!" )
-#             cv2.waitKey(0)
-#         key = cv2.waitKey(1)
-#         if key==ord('q'):
-#             break
+        if(len(left_lane) + len(right_lane) < 12):
+            print("Missing Points!" )
+            cv2.waitKey(0)
+        key = cv2.waitKey(1)
+        if key==ord('q'):
+            break
 #%%
 
