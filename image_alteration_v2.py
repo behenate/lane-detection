@@ -349,33 +349,33 @@ def default_alter(img, right_lane, left_lane):
     return img, right_lane, left_lane
 #%%
 # TESTER
-cv2.namedWindow("test", cv2.WINDOW_KEEPRATIO)
-for label in labels_pahts[0:1000]:
-    if label.endswith(".p"):
-        start_time = time.time()
-        label = pickle.load(open(labels_path + label, "rb"))
-        img = label['img']
-        left_lane = label['left_lane']
-        right_lane = label['right_lane']
+# cv2.namedWindow("test", cv2.WINDOW_KEEPRATIO)
+# for label in labels_pahts[0:1000]:
+#     if label.endswith(".p"):
+#         start_time = time.time()
+#         label = pickle.load(open(labels_path + label, "rb"))
+#         img = label['img']
+#         left_lane = label['left_lane']
+#         right_lane = label['right_lane']
 
-        img, right_lane, left_lane = default_alter(img, right_lane, left_lane)
+#         img, right_lane, left_lane = default_alter(img, right_lane, left_lane)
 
-        ddist_img = draw_points(img, right_lane, left_lane)
+#         ddist_img = draw_points(img, right_lane, left_lane)
         
-        fps =  int(1.0 / (time.time() - start_time))
-        perf = fps/60
-        font = cv2.FONT_HERSHEY_SIMPLEX
-        ddist_img = cv2.putText(ddist_img,f'FPS: {fps}',(30,30), font, 1,(0, perf * 255,(1-perf) * 255 ),2,cv2.LINE_AA)
-        cv2.line(img, (0, 70), (480, 70), color = (255,0,0), thickness=1, lineType=8, shift=0)
-        cv2.line(img, (240, 0), (240, 270), color = (255,0,0), thickness=1, lineType=8, shift=0)
-        cv2.imshow("test", ddist_img)
+#         fps =  int(1.0 / (time.time() - start_time))
+#         perf = fps/60
+#         font = cv2.FONT_HERSHEY_SIMPLEX
+#         ddist_img = cv2.putText(ddist_img,f'FPS: {fps}',(30,30), font, 1,(0, perf * 255,(1-perf) * 255 ),2,cv2.LINE_AA)
+#         cv2.line(img, (0, 70), (480, 70), color = (255,0,0), thickness=1, lineType=8, shift=0)
+#         cv2.line(img, (240, 0), (240, 270), color = (255,0,0), thickness=1, lineType=8, shift=0)
+#         cv2.imshow("test", ddist_img)
 
 
-        if(len(left_lane) + len(right_lane) < 12):
-            print("Missing Points!" )
-            cv2.waitKey(0)
-        key = cv2.waitKey(1)
-        if key==ord('q'):
-            break
+#         if(len(left_lane) + len(right_lane) < 12):
+#             print("Missing Points!" )
+#             cv2.waitKey(0)
+#         key = cv2.waitKey(1)
+#         if key==ord('q'):
+#             break
 #%%
 
